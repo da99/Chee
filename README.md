@@ -30,11 +30,11 @@ You could include the DSL into your own object:
 
       include Chee::DSL
 
-      def ssh cmd
-        super cmd.strip
-      end
+    end
 
-    end # === Class My_SSH
+    o = My_SSH.new
+    o.server 'my_server'
+    o.ssh "uptime"
 
 Or you could use Chee directly:
 
@@ -42,39 +42,7 @@ Or you could use Chee directly:
     Chee.server 'my_server'
     Chee.ssh "uptime"
 
-`:ssh` returns a `Chee::Result` object:
-
-    result = Chee.ssh( "uptime" )
-    
-    result.out         # ==> output from STDOUT
-    result.exit_status 
-
-Usage: Printing Output
------
-
-Override default printing with `:print\_data`:
-
-    obj.print_data { |data|
-      # ignore data
-    }
-
-    # The default proc is equivalent to:
-    obj.print_data { |data| 
-      print data   
-      STDOUT.flush
-    }
-
-You can still get the output with the returned value of `:ssh` 
-or `ssh_to_all`:
-
-    obj.ssh( "uptime" ).out
-
-    obj.ssh_to_all("uptime").map(&:out)
-
-Usage: Single Server
------
-
-    require "Chee"
+`:server` accepts the same options as `Net::SSH.start`:
     
     # If you configured server using ~/.ssh/config:
     Chee.server "my_server"  
@@ -88,7 +56,41 @@ Usage: Single Server
       :timeout  => 3  
     )
     
-    # Send a command
+`:ssh` returns a `Chee::Result` object:
+
+    result = Chee.ssh( "uptime" )
+    result.out         # ==> output from STDOUT
+    result.exit_status 
+
+Usage: Printing Output
+-----
+
+Override default printing with `:print_data`:
+
+    o.print_data { |data|
+      # ignore data
+    }
+
+    # The default proc is equivalent to:
+    o.print_data { |data| 
+      print data   
+      STDOUT.flush
+    }
+
+You can still get the output with the returned value of `:ssh` 
+or `ssh_to_all`:
+
+    o.ssh( "uptime" ).out
+
+    o.ssh_to_all("uptime").map(&:out)
+
+Usage: Single Server
+-----
+
+    require "Chee"
+    
+    Chee.server "my_server"  
+    
     Chee.ssh %^ sudo add-apt-repository ppa:nginx/stable ^
 
 

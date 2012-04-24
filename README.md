@@ -20,8 +20,37 @@ Installation
 
     gem install Chee
 
-Usage
+Usage: DSL
 ------
+
+You could include the DSL into your own object:
+
+    require "Chee"
+    Class My_SSH
+
+      include Chee::DSL
+
+      def ssh cmd
+        super cmd.strip
+      end
+
+    end # === Class My_SSH
+
+Or you could use Chee directly:
+
+    require "Chee"
+    Chee.server 'my_server'
+    Chee.ssh "uptime"
+
+`:ssh` returns a `Chee::Result` object:
+
+    result = Chee.ssh( "uptime" )
+    
+    result.out         # ==> output from STDOUT
+    result.exit_status 
+
+Usage: Single Server
+-----
 
     require "Chee"
     
@@ -42,17 +71,16 @@ Usage
 <!-- sudo apt-get install nginx -->
 <!-- ^ -->
 
-Or you could include the DSL into your own object:
 
-    Class My_SSH
+Usage: Multiple Servers
+------
 
-      include Chee::DSL
+    Chee.server 'server_1'
+    Chee.server 'server_2', 'my_username'
 
-      def ssh cmd
-        super cmd.strip
-      end
+    Chee.ssh_to_all "uptime"
+    # --->  [ Chee::Result, Chee::Result ]
 
-    end # === Class My_SSH
 
 Run Tests
 ---------

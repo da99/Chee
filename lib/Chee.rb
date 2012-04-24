@@ -18,14 +18,28 @@ class Chee
   
   module DSL
 
+    def server_array
+      @server_array ||= []
+    end
+
     def server *args
       return @server if args.empty?
+      server_array << args
+      server_array.uniq!
       @server = args
     end
 
     def print_data &blok
-      return @print_data if blok.nil?
+      @print_data ||= proc { |d| print d; STDOUT.flush; } 
+      return(@print_data) if blok.nil? 
       @print_data = blok
+    end
+
+    def ssh_to_all command
+      @server_array.map { |opts|
+        server *opts
+        ssh command
+      }
     end
 
     # 
@@ -158,9 +172,5 @@ class Chee
   end # === module DSL
 
   extend DSL
-  print_data { |d|
-    print d
-    STDOUT.flush
-  }
 
 end # === class Chee

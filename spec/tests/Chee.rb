@@ -46,8 +46,8 @@ describe ":ssh_exec" do
   end
   
   it "strips returned data" do
-    target = `uptime`.strip.gsub(%r!\d+!, '[0-9]{1,2}')
-    Chee.ssh("uptime").out.should.match %r!#{target}!
+    Chee.ssh("cat ~/.bashrc").out.gsub("\r", '')
+    .should == `cat ~/.bashrc`.strip
   end
   
   it 'raises Net::SSH::AuthenticationFailed if login/password are incorrect' do
@@ -67,4 +67,42 @@ describe ":ssh_exec" do
   end
 
 end # === describe :ssh_exec
+
+describe "Chee :server" do
+
+  before { @m = My_SSH.new }
+  
+  it "adds server to server list" do
+    @m.server 'local'
+    @m.server_array.should.include ['local']
+  end
+  
+  it "adds server to server list only once" do
+    @m.server 'local'
+    @m.server 'local'
+    @m.server_array.should == [ ['local'] ]
+  end
+  
+end # === Chee :server
+
+describe "Chee :ssh_to_all" do
+
+  before { 
+    @m = My_SSH.new 
+    @m.server "localhost"
+    @m.server "localhost", nil
+    @m.server "localhost", `whoami`.strip
+  }
+
+  it "sends commands to all servers in :server_array" do
+    list = @m.ssh_to_all "ruby #{File.expand_path 'spec/files/abc.rb'}"
+    list.map { |o| o.out.strip }.should == %w{ a b c }
+  end
+
+  it "returns an Array with all elements Chee::Result" do
+    list = @m.ssh_to_all "uptime"
+    list.map(&:class).should == [ Chee::Result, Chee::Result, Chee::Result]
+  end
+
+end # === Chee :ssh_to_all
 

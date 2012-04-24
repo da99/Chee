@@ -5,6 +5,17 @@ require 'Bacon_Colored'
 require 'pry'
 require 'mocha-on-bacon'
 
+class My_SSH
+
+  include Chee::DSL
+
+  def print_data
+    @print_data ||= proc {}
+  end
+  
+end # === My_SSH
+
+File.write("/tmp/abc.txt", "")
 
 # ======== Include the tests.
 if ARGV.size > 1 && ARGV[1, ARGV.size - 1].detect { |a| File.exists?(a) }

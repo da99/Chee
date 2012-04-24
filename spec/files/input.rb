@@ -21,7 +21,7 @@ Open3.popen3( "#{cmd} Chee") do |i, o, e, w|
   print o.gets(' ')
   print o.gets(' ')
   i.puts 'a'
-  sleep 0.5
+  sleep 1
   while txt = o.gets do
     puts txt
   end

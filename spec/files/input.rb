@@ -1,7 +1,7 @@
 cmd = %^ bundle exec ruby #{File.expand_path __FILE__} ^
 dir = File.expand_path('.')
 
-if ARGV == ['PTY']
+if ARGV == ['STDIN']
   require "highline/import"
   input = ask("Input text: ")
   puts "You entered: #{input.inspect}"
@@ -11,7 +11,7 @@ end
 if ARGV == ['Chee']
   require 'Chee'
   Chee.server 'localhost'
-  Chee.ssh "cd #{dir} && #{cmd} PTY"
+  Chee.ssh "cd #{dir} && #{cmd} STDIN"
   exit 0
 end
 

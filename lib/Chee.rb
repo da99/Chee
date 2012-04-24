@@ -30,6 +30,15 @@ class Chee
       stderr = ""
       t      = nil # used to store a Thread
 
+      opts   = {:timeout=>3}
+      
+      if server.is_a?(String)
+        conn = {:ip=>server, :user=>nil}
+      else
+        conn = {:ip=>server.delete(:ip), :user=>server.delete(:user)}
+        opts = {:password=>conn.delete(:password)}.merge(server)
+      end
+
       begin
 
         get_input = true
@@ -60,7 +69,7 @@ class Chee
 
         }
 
-        Net::SSH.start(server, nil, :timeout=>3) { |ssh|
+        Net::SSH.start(conn[:ip], conn[:user], opts) { |ssh|
 
           @channel = ssh.open_channel do |ch1|
 

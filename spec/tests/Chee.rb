@@ -12,6 +12,16 @@ describe ":ssh_exec" do
     Chee.server @localhost
   end
   
+  it 'accepts a String for the server info.' do
+    Chee.server "localhost"
+    Chee.ssh("echo 'a'").out.should == "a"
+  end
+
+  it 'accepts a Hash for the server info.' do
+    Chee.server :ip=>'localhost', :user=>`whoami`.strip, :password=>nil
+    Chee.ssh("echo 'b'").out.should == 'b'
+  end
+
   it 'uses a PTY' do
     Chee.ssh("tty").out.should.match %r!/dev/pts/\d+!
   end

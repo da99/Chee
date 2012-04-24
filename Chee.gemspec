@@ -9,10 +9,10 @@ Gem::Specification.new do |s|
   s.authors     = ["da99"]
   s.email       = ["i-hate-spam-45671204@mailinator.com"]
   s.homepage    = "https://github.com/da99/Chee"
-  s.summary     = %q{Interact with a SSH session using tty and STDIN.}
+  s.summary     = %q{User interaction with a SSH session.}
   s.description = %q{
-    Send commands through SSH, but using a tty/pty and STDIN.
-    That's right: Interactive SSH sessions. **Note:** Programs that
+    Send commands through SSH, but using a pseudo-terminal and STDIN.
+    Uses Net::SSH. **Note:** Programs that
     redraw the screen (e.g. vim) don't work that well. Apt-get and 
     other programs that request input in a simple manner should work well enough.
   }

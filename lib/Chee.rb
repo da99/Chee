@@ -39,14 +39,20 @@ class Chee
       @server_array.map { |opts|
         server *opts
         ssh command
-      }
+      }.flatten
     end
 
     # 
     # Thread technique came from: 
     # http://stackoverflow.com/questions/6942279/ruby-net-ssh-channel-dies
     # 
-    def ssh command
+    def ssh raw_cmd
+      command = raw_cmd.strip
+      if command["\n"]
+        return command.split("\n").map(&:strip).map { |s|
+          ssh s
+        }
+      end
       stdout = ""
       stderr = ""
       t      = nil # used to store a Thread
@@ -158,7 +164,7 @@ class Chee
       result.out stdout
       
       if !result.err.empty? || result.exit_status != 0
-        e = Exit_Error.new("Exit: #{result.exit_status}, STDERR: #{result.err}")
+        e = Exit_Error.new("Exit: #{result.exit_status}, COMMAND: #{command}")
         e.exit_status result.exit_status
         e.out         result.out
         e.err         result.err

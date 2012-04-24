@@ -1,5 +1,5 @@
 
-describe ":ssh_exec" do
+describe "Chee :ssh" do
   
   before do
     @localhost = 'localhost'    
@@ -41,8 +41,14 @@ describe ":ssh_exec" do
     .should == %@Input text: a\nYou entered: "a"@
   end
 
-  it 'returns a SSH::Results' do
+  it 'returns a Chee::Result' do
     Chee.ssh("hostname").should.be.is_a Chee::Result
+  end
+
+  it 'returns an Array of Chee::Result if command has multiple lines' do
+    cmd = "ruby #{File.expand_path 'spec/files/abc.rb'}"
+    Chee.ssh("#{cmd}\n#{cmd}\n#{cmd}")
+    .map(&:class).should == [ Chee::Result, Chee::Result, Chee::Result ]
   end
   
   it "strips returned data" do
@@ -102,6 +108,11 @@ describe "Chee :ssh_to_all" do
   it "returns an Array with all elements Chee::Result" do
     list = @m.ssh_to_all "uptime"
     list.map(&:class).should == [ Chee::Result, Chee::Result, Chee::Result]
+  end
+
+  it "returns a flatten Array if command had multiple lines" do
+    list = @m.ssh_to_all "uptime\nuptime"
+    list.map(&:class).should == [ Chee::Result, Chee::Result ] * 3
   end
 
 end # === Chee :ssh_to_all

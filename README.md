@@ -68,8 +68,6 @@ Usage: Single Server
     
     # Send a command
     Chee.ssh %^ sudo add-apt-repository ppa:nginx/stable ^
-<!-- sudo apt-get install nginx -->
-<!-- ^ -->
 
 
 Usage: Multiple Servers
@@ -81,7 +79,32 @@ Usage: Multiple Servers
     Chee.ssh_to_all "uptime"
     # --->  [ Chee::Result, Chee::Result ]
 
+Usage: Multiple Line Command
+----
 
+Single Server, multiple commands:
+
+    Chee.server 'localhost'
+    
+    Chee.ssh %^
+    
+      sudo add-apt-repository ppa:nginx/stable
+      sudo apt-get install nginx
+      
+    ^
+    # ---> [ Chee::Result, Chee::Result ]
+    
+Multiple servers, multiple commands:
+
+    Chee.server 'localhost'
+    Chee.server 'my_other_host'
+    
+    Chee.ssh_to_all %^
+      echo "a"
+      echo "b"
+    ^
+    # ---> [ Chee::Result, Chee::Result, Chee::Result, Chee::Result ]
+    
 Run Tests
 ---------
 

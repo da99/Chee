@@ -5,9 +5,15 @@ Chee
 Send commands through SSH, but using a tty/pty and STDIN.
 That's right: Interactive SSH sessions. 
 
-**Note:** Programs that redraw the screen (e.g. vim) don't work that well. 
+Limitations
+-----------
+
+* Programs that redraw the screen (e.g. vim) don't work that well. 
 Apt-get and 
 other programs that request input in a simple manner should work well enough.
+
+* PTY (psuedo-terminal) is used. Which means it runs in a sub-shell. 
+Which leads to *no* STDERR access. All output is done on STDOUT.
 
 Installation
 ------------
@@ -55,8 +61,6 @@ private keys. The following is useful for Ubuntu users:
     sudo ufw deny ssh
     sudo ufw default deny
     sudo ufw enable
-
-More info: 
 
 * [UFW: Firewall](https://help.ubuntu.com/community/UFW)
 * Common UFW rules: [http://blog.bodhizazen.net/linux/firewall-ubuntu-desktops/](http://blog.bodhizazen.net/linux/firewall-ubuntu-desktops/)

@@ -3,6 +3,7 @@ require File.expand_path('spec/helper')
 require 'Chee'
 require 'Bacon_Colored'
 require 'pry'
+require 'mocha-on-bacon'
 
 
 # ======== Include the tests.

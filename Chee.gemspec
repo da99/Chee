@@ -9,8 +9,13 @@ Gem::Specification.new do |s|
   s.authors     = ["da99"]
   s.email       = ["i-hate-spam-45671204@mailinator.com"]
   s.homepage    = "https://github.com/da99/Chee"
-  s.summary     = %q{TODO: Write a gem summary}
-  s.description = %q{TODO: Write a gem description}
+  s.summary     = %q{Interact with a SSH session using tty and STDIN.}
+  s.description = %q{
+    Send commands through SSH, but using a tty/pty and STDIN.
+    That's right: Interactive SSH sessions. **Note:** Programs that
+    redraw the screen (e.g. vim) don't work that well. Apt-get and 
+    other programs that request input in a simple manner should work well enough.
+  }
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
@@ -21,7 +26,10 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rake'
   s.add_development_dependency 'Bacon_Colored'
   s.add_development_dependency 'pry'
+  s.add_development_dependency 'mocha-on-bacon'
   
   # Specify any dependencies here; for example:
-  # s.add_runtime_dependency 'rest-client'
+  s.add_runtime_dependency 'Get_Set'
+  s.add_runtime_dependency 'net-ssh'
+  s.add_runtime_dependency 'net-scp'
 end

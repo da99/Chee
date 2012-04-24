@@ -41,7 +41,7 @@ describe "Chee :ssh" do
   
   it 'accepts input from STDIN' do
     `bundle exec ruby spec/files/input.rb 2>&1`.strip
-    .should == %@Input text: a\nYou entered: "a"@
+    .should == %@Input text: a\nYou entered: "a\\n"@
   end
 
   it 'returns a Chee::Result' do

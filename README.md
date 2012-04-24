@@ -49,6 +49,28 @@ Or you could use Chee directly:
     result.out         # ==> output from STDOUT
     result.exit_status 
 
+Usage: Printing Output
+-----
+
+Override default printing with `:print\_data`:
+
+    obj.print_data { |data|
+      # ignore data
+    }
+
+    # The default proc is equivalent to:
+    obj.print_data { |data| 
+      print data   
+      STDOUT.flush
+    }
+
+You can still get the output with the returned value of `:ssh` 
+or `ssh_to_all`:
+
+    obj.ssh( "uptime" ).out
+
+    obj.ssh_to_all("uptime").map(&:out)
+
 Usage: Single Server
 -----
 

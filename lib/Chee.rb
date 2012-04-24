@@ -23,6 +23,11 @@ class Chee
       @server = args
     end
 
+    def print_data &blok
+      return @print_data if blok.nil?
+      @print_data = blok
+    end
+
     # 
     # Thread technique came from: 
     # http://stackoverflow.com/questions/6942279/ruby-net-ssh-channel-dies
@@ -102,8 +107,7 @@ class Chee
               stdout << d # .sub(%r!\r?\n\Z!,'')
 
               unless prev_cmd.to_s.strip == d.strip
-                print d
-                STDOUT.flush
+                print_data.call d
               end
 
               prev_data = d
@@ -131,13 +135,6 @@ class Chee
       rescue Net::SSH::AuthenticationFailed => e
         raise e.class, "Using: #{server.inspect}"
 
-        #rescue Net::SSH::HostKeyMismatch => e
-        #  if e.message[%r!fingerprint .+ does not match for!]
-        #    print "Try this", "ssh-keygen -f \"~/.ssh/known_hosts\" -R #{server[:ip]}\n"
-        #    raise Retry_Command, "Removed the RSA key."
-        #  end
-        #  
-        #  raise e
       ensure
         get_input = false
         t.exit if t
@@ -161,5 +158,9 @@ class Chee
   end # === module DSL
 
   extend DSL
+  print_data { |d|
+    print d
+    STDOUT.flush
+  }
 
 end # === class Chee

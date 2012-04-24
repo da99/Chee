@@ -10,6 +10,11 @@ describe ":ssh_exec" do
     ]
     
     Chee.server @localhost
+    @data = ''
+    
+    Chee.print_data { |d|
+      @data << d
+    }
   end
   
   it 'accepts a String for the server info.' do
@@ -20,6 +25,11 @@ describe ":ssh_exec" do
   it 'accepts a Hash for the server info.' do
     Chee.server 'localhost', `whoami`.strip, :password=>nil
     Chee.ssh("echo 'b'").out.should == 'b'
+  end
+
+  it 'uses :print_data to print data' do
+    Chee.ssh 'echo c'
+    @data.strip.should == 'c'
   end
 
   it 'uses a PTY' do

@@ -25,15 +25,19 @@ Usage
 
     require "Chee"
     
-    Chee.server "my_server"  # If you configured server using ~/.ssh/config
-    Chee.server Hash[
-      :ip       => 'localhost', 
-      :user     => 'me', 
-      
-      # options other than :ip/:user are sent to Net::SSH
+    # If you configured server using ~/.ssh/config:
+    Chee.server "my_server"  
+    
+    # You can also use the same options you would send to
+    # Net::SSH:
+    Chee.server(
+      'localhost', 
+      'me', 
       :password => "try to use private/public keys", 
       :timeout  => 3  
-    ]
+    )
+    
+    # Send a command
     Chee.ssh %^ sudo add-apt-repository ppa:nginx/stable ^
 <!-- sudo apt-get install nginx -->
 <!-- ^ -->

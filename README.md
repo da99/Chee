@@ -2,8 +2,14 @@
 Chee
 ================
 
-Send commands through SSH, but using a tty/pty and STDIN.
-That's right: Interactive SSH sessions. 
+A Ruby gem that allows interactive `User <-> Ruby <-> SSH` sessions. 
+It uses Net::SSH and a pseudo-terminal.
+
+Thanks
+------
+
+This post by `jtzero` provided the solution for using STDIN and Net::SSH:
+[http://stackoverflow.com/questions/6942279/ruby-net-ssh-channel-dies](http://stackoverflow.com/questions/6942279/ruby-net-ssh-channel-dies)
 
 Limitations
 -----------
@@ -12,8 +18,9 @@ Limitations
 Apt-get and 
 other programs that request input in a simple manner should work well enough.
 
-* PTY (psuedo-terminal) is used. Which means it runs in a sub-shell. 
-Which leads to *no* STDERR access. All output is done on STDOUT.
+* A pseudo-terminal is used. Which means it runs in a sub-shell. 
+Which leads to *no* STDERR access. All returning output from your command
+is done on STDOUT.
 
 Installation
 ------------

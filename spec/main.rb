@@ -9,8 +9,7 @@ class My_SSH
 
   include Chee::DSL
 
-  def print_data
-    @print_data ||= proc {}
+  def print_data data
   end
   
 end # === My_SSH

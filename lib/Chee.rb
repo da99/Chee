@@ -29,10 +29,9 @@ class Chee
       @server = args
     end
 
-    def print_data &blok
-      @print_data ||= proc { |d| print d; STDOUT.flush; } 
-      return(@print_data) if blok.nil? 
-      @print_data = blok
+    def print_data d
+      print d
+      STDOUT.flush
     end
 
     def ssh_to_all command
@@ -127,7 +126,7 @@ class Chee
               stdout << d # .sub(%r!\r?\n\Z!,'')
 
               unless prev_cmd.to_s.strip == d.strip
-                print_data.call d
+                print_data d
               end
 
               prev_data = d

@@ -10,11 +10,14 @@ describe "Chee :ssh" do
     ]
     
     Chee.server @localhost
-    @data = ''
     
-    Chee.print_data { |d|
-      @data << d
-    }
+    def Chee.data
+      @data
+    end
+
+    def Chee.print_data d
+      @data = d
+    end
   end
   
   it 'accepts a String for the server info.' do
@@ -29,7 +32,7 @@ describe "Chee :ssh" do
 
   it 'uses :print_data to print data' do
     Chee.ssh 'echo c'
-    @data.strip.should == 'c'
+    Chee.data.strip.should == 'c'
   end
 
   it 'uses a PTY' do

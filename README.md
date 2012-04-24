@@ -67,15 +67,15 @@ Usage: Printing Output
 
 Override default printing with `:print_data`:
 
-    o.print_data { |data|
+    def print_data data
       # ignore data
-    }
+    end
 
-    # The default proc is equivalent to:
-    o.print_data { |data| 
+    # The default is:
+    def print_data data
       print data   
       STDOUT.flush
-    }
+    end
 
 You can still get the output with the returned value of `:ssh` 
 or `:ssh_to_all`:

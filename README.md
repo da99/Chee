@@ -64,8 +64,15 @@ To run the tests:
     bundle update
     bundle exec bacon spec/main.rb
     
-Don't forget to setup ssh server, firewall, and passwordless SSH using
-private keys. The following is useful for Ubuntu users:
+The tests assume you use passwordless SSH login using
+private keys and put the following in your ~/.ssh/config:
+
+    Host localhost
+      User *your username*
+      IdentityFile ~/.ssh/path_to_priv_key
+
+
+The following is useful for Ubuntu users:
 
     sudo apt-get install ufw openssh-server
     sudo ufw allow from 127.0.0.1 to any port 22

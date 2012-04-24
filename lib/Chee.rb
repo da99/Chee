@@ -41,7 +41,7 @@ class Chee
 
         t = Thread.new { 
 
-          while get_input
+          while get_input do
 
             cmd = begin
                     Readline.readline("", true).strip
@@ -56,7 +56,7 @@ class Chee
               print "Connection closed. Could not send: #{cmd}\n"
             end
 
-        end 
+          end 
 
         }
 

@@ -25,11 +25,11 @@ Usage
 
     require "Chee"
     
-    Chee.server "my_server"
-    Chee.ssh %^
-      sudo add-apt-repository ppa:nginx/stable
-      sudo apt-get install nginx
-    ^
+    # Configure server using ~/.ssh/config
+    Chee.server "my_server" 
+    Chee.ssh %^ sudo add-apt-repository ppa:nginx/stable ^
+<!-- sudo apt-get install nginx -->
+<!-- ^ -->
 
 Or you could include the DSL into your own object:
 

@@ -71,7 +71,7 @@ Override default printing with `:print_data`:
     }
 
 You can still get the output with the returned value of `:ssh` 
-or `ssh_to_all`:
+or `:ssh_to_all`:
 
     o.ssh( "uptime" ).out
 
@@ -116,11 +116,13 @@ Multiple servers, multiple commands:
     Chee.server 'localhost'
     Chee.server 'my_other_host'
     
-    Chee.ssh_to_all %^
+    Chee.ssh_to_all('
       echo "a"
       echo "b"
-    ^
-    # ---> [ Chee::Result, Chee::Result, Chee::Result, Chee::Result ]
+    ')
+    .map(&:out)
+    
+    # ---> [ "a", "b", "a", "b" ]
     
 Run Tests
 ---------

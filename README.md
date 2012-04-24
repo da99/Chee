@@ -27,9 +27,7 @@ You could include the DSL into your own object:
 
     require "Chee"
     Class My_SSH
-
       include Chee::DSL
-
     end
 
     o = My_SSH.new
@@ -44,11 +42,6 @@ Or you could use Chee directly:
 
 `:server` accepts the same options as `Net::SSH.start`:
     
-    # If you configured server using ~/.ssh/config:
-    Chee.server "my_server"  
-    
-    # You can also use the same options you would send to
-    # Net::SSH:
     Chee.server(
       'localhost', 
       'me', 

@@ -26,6 +26,11 @@ describe ":ssh_exec" do
     Chee.ssh("tty").out.should.match %r!/dev/pts/\d+!
   end
   
+  it 'accepts input from STDIN' do
+    `bundle exec ruby spec/files/input.rb 2>&1`.strip
+    .should == %@Input text: a\nYou entered: "a"@
+  end
+
   it 'returns a SSH::Results' do
     Chee.ssh("hostname").should.be.is_a Chee::Result
   end
@@ -41,7 +46,6 @@ describe ":ssh_exec" do
       Chee.ssh "hostname"
     }.should.raise(Net::SSH::AuthenticationFailed)
     .message.should.match %r!Using: ..github.com..!
-
   end
 
   it 'raises Chee::Exit_Error if return status is not zero' do
@@ -53,32 +57,4 @@ describe ":ssh_exec" do
   end
 
 end # === describe :ssh_exec
-
-__END__
-describe ":ssh_exits" do
-  
-  it 'captures exits based on key => int, val => Regexp' do
-    lambda {
-      ignore_exits("cat something.txt", 1=>%r!something\.txt\: No such file or directory!)
-    }.should.not.raise
-  end
-  
-  it 'captures exits based on key => int, val => String' do
-    lambda {
-      ignore_exits("cat something.txt", 1=>'something.txt: No such file or directory') 
-    }.should.not.raise
-  end
-  
-  it 'returns SSH::Results for a non-zero exit status' do
-    ignore_exits("cat something.txt", 1=>'something.txt: No such file or directory')
-    .should.be.is_a Unified_IO::Remote::SSH::Results
-  end
-  
-  it 'returns SSH::Results for a zero exit status' do
-    ignore_exits("uptime", 1=>'something.txt: No such file or directory')
-    .should.be.is_a Unified_IO::Remote::SSH::Results
-  end
-  
-end # === describe :ssh_exits
-  
 

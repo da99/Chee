@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'Bacon_Colored'
   s.add_development_dependency 'pry'
   s.add_development_dependency 'mocha-on-bacon'
+  s.add_development_dependency 'highline'
   
   # Specify any dependencies here; for example:
   s.add_runtime_dependency 'Get_Set'

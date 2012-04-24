@@ -26,7 +26,14 @@ Usage
     require "Chee"
     
     Chee.server "my_server"  # If you configured server using ~/.ssh/config
-    Chee.server :ip=>'localhost', :user=>'me', :password=>"try to use private/public keys"
+    Chee.server Hash[
+      :ip       => 'localhost', 
+      :user     => 'me', 
+      
+      # options other than :ip/:user are sent to Net::SSH
+      :password => "try to use private/public keys", 
+      :timeout  => 3  
+    ]
     Chee.ssh %^ sudo add-apt-repository ppa:nginx/stable ^
 <!-- sudo apt-get install nginx -->
 <!-- ^ -->

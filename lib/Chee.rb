@@ -18,8 +18,10 @@ class Chee
   
   module DSL
 
-    include Get_Set::DSL
-    attr_get_set :server
+    def server *args
+      return @server if args.empty?
+      @server = args
+    end
 
     # 
     # Thread technique came from: 
@@ -30,14 +32,8 @@ class Chee
       stderr = ""
       t      = nil # used to store a Thread
 
-      opts   = {:timeout=>3}
-      
-      if server.is_a?(String)
-        conn = {:ip=>server, :user=>nil}
-      else
-        conn = {:ip=>server.delete(:ip), :user=>server.delete(:user)}
-        opts = {:password=>conn.delete(:password)}.merge(server)
-      end
+      ip, user, new_opts = *server
+      opts = {:timeout=>3}.merge(new_opts || {})
 
       begin
 
@@ -69,7 +65,7 @@ class Chee
 
         }
 
-        Net::SSH.start(conn[:ip], conn[:user], opts) { |ssh|
+        Net::SSH.start(ip, user, opts) { |ssh|
 
           @channel = ssh.open_channel do |ch1|
 

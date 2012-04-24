@@ -18,7 +18,7 @@ describe ":ssh_exec" do
   end
 
   it 'accepts a Hash for the server info.' do
-    Chee.server :ip=>'localhost', :user=>`whoami`.strip, :password=>nil
+    Chee.server 'localhost', `whoami`.strip, :password=>nil
     Chee.ssh("echo 'b'").out.should == 'b'
   end
 
@@ -40,7 +40,8 @@ describe ":ssh_exec" do
       Chee.server "github.com"
       Chee.ssh "hostname"
     }.should.raise(Net::SSH::AuthenticationFailed)
-    .message.should.match %r!Using: "github.com"!
+    .message.should.match %r!Using: ..github.com..!
+
   end
 
   it 'raises Chee::Exit_Error if return status is not zero' do
